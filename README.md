@@ -159,43 +159,52 @@ Non-verbal primary — WALL-E inspired. Speech reserved for direct responses and
 ```
 mortise/
 ├── README.md
+├── CLAUDE.md                         # Session context — paste at start of every session
+├── .gitignore
 ├── hardware/
 │   ├── parts-list.md
 │   ├── wiring.md
-│   ├── enclosure.md          # Torso, head, base platform, sub orb dimensions
-│   ├── panel-layout.md       # Front panel gauge and switch positions
+│   ├── enclosure.md                  # Torso, head, base platform, sub orb dimensions
+│   ├── panel-layout.md               # Front panel gauge and switch positions
 │   └── assembly.md
 ├── firmware/
 │   └── cpx/
-│       └── code.py           # CircuitPython — NeoPixels, GC9A01 gauge, serial handler
+│       └── code.py                   # CircuitPython — NeoPixels, GC9A01 gauge, serial handler
 ├── software/
-│   ├── main.py
+│   ├── main.py                       # Event loop, state machine, module coordination
+│   ├── config/
+│   │   └── settings.py               # GPIO pins, serial port, Ollama endpoint, defaults
 │   ├── personality/
-│   │   ├── engine.py         # Personality + verbosity management
+│   │   ├── engine.py                 # Load/swap personality, verbosity scaling, context injection
 │   │   ├── mortise.py
 │   │   ├── jasper.py
 │   │   ├── glen.py
-│   │   └── pawl.py
+│   │   ├── pawl.py
+│   │   └── joker.py                  # Sarcastic, teasing — uses vision context for personalized greetings
 │   ├── emotional_states/
-│   │   ├── states.py         # State definitions and transitions
-│   │   ├── head.py           # MG996R swivel + thinking tremor routine
-│   │   ├── lights.py         # NeoPixel states via CPX serial
-│   │   └── audio.py          # Non-verbal audio generation
+│   │   ├── states.py                 # State enum + transition rules
+│   │   ├── head.py                   # MG996R PWM, swivel, thinking tremor routine
+│   │   ├── lights.py                 # NeoPixel states → CPX serial
+│   │   └── audio.py                  # Non-verbal sound generation
 │   ├── inference/
-│   │   ├── gemma.py          # Gemma 4 E4B via Ollama
-│   │   └── gauge.py          # Inference progress → CPX serial → GC9A01
+│   │   ├── gemma.py                  # Ollama wrapper, streaming, context management
+│   │   └── gauge.py                  # Inference progress integer → CPX serial → GC9A01
 │   ├── vision/
-│   │   └── camera.py         # ELP USB camera via OpenCV/V4L2
+│   │   ├── camera.py                 # OpenCV/V4L2 capture, background thread
+│   │   ├── presence.py               # Face detection, recognition, person enter/leave events
+│   │   └── traits.py                 # Observable trait detection via Gemma multimodal (glasses, hat, etc.)
+│   ├── media/
+│   │   ├── player.py                 # Music and podcast playback via mpv
+│   │   └── youtube.py                # YouTube search and stream via yt-dlp
 │   ├── encoders/
-│   │   └── encoders.py       # PEC11R handler — personality + verbosity
-│   ├── io/
-│   │   └── switches.py       # Toggle, pushbutton, slider handling
-│   └── config/
-│       └── settings.py       # GPIO pins, defaults, tuning
+│   │   └── encoders.py               # PEC11R interrupt handler — personality + verbosity
+│   └── io/
+│       ├── switches.py               # Toggles, pushbuttons, volume slider
+│       └── cpx.py                    # Serial protocol layer — all Orin↔CPX communication
 ├── scripts/
-│   ├── setup.sh
-│   ├── install-ollama.sh
-│   └── start.sh
+│   ├── setup.sh                      # JetPack post-flash: apt deps, pip, Tailscale, systemd service
+│   ├── install-ollama.sh             # Jetson AI Lab container, pull Gemma 4 E4B
+│   └── start.sh                      # Launch software/main.py
 └── docs/
     ├── build-log.md
     └── future-builds.md
@@ -282,9 +291,9 @@ Key architecture:
 - Audio: MC351 dehoused PCB, USB DAC built in, no separate DAC board
 - Inference gauge: Orin sends integer 0-100 to CPX via serial → CPX animates GC9A01 1.28" round SPI display
 - Three portholes: left=inference gauge, center=CPX NeoPixel emotional state, right=VU meter (MC351 meter movement relocated via jumpers)
+- Serial protocol: all Orin↔CPX communication goes through software/io/cpx.py — STATE:<name> and GAUGE:<0-100>
 
-
-Personality system: four named personalities as system prompt variants, hot-swappable at runtime via left encoder. Verbosity modifies response length parameters via right encoder.
+Personality system: five named personalities (Mortise, Jasper, Glen, Pawl, Joker) as system prompt variants, hot-swappable at runtime via left encoder. Verbosity modifies response length parameters via right encoder. Joker receives vision context (traits.py output) injected into prompt for personalized greetings.
 
 Emotional states: 12 states, non-verbal primary. States drive head servo (including thinking tremor), NeoPixels via CPX serial, non-verbal audio, sub behavior. Speech is rare.
 
