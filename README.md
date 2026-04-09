@@ -112,6 +112,7 @@ Left ear encoder selects personality. Right ear encoder controls verbosity — t
 | 2 | **Jasper** | Old soul, measured, warm. More conversational. |
 | 3 | **Glen** | Easy companion. Friendly, no agenda, genuinely glad you're there. |
 | 4 | **Pawl** | Quiet observer. Says little. Means everything. |
+| 5 | **Joker** | Sarcastic, affectionate, relentlessly teasing. Notices everything and will use it against you. Politely. Greets you by your flaws. Makes fun of you like a friend who's known you too long. Speech is less rare — and usually at your expense. |
 
 ---
 
@@ -275,7 +276,7 @@ Key architecture:
 - Body controller: Adafruit Circuit Playground Express via USB serial (CircuitPython)
 - NeoPixels driven by CPX — do not use GPIO NeoPixel libraries
 - Head swivel: MG996R servo on GPIO 32 via PWM, offset mounted, thinking tremor routine
-- Left ear encoder (GPIO 33/35/36): personality selector — Mortise, Jasper, Glen, Pawl
+- Left ear encoder (GPIO 33/35/36): personality selector — Mortise, Jasper, Glen, Pawl, Joker
 - Right ear encoder (GPIO 37/38/40): verbosity control — continuous dial
 - Camera: ELP 8MP USB stick board (9x62mm) in walnut cap, OpenCV/V4L2
 - Audio: MC351 dehoused PCB, USB DAC built in, no separate DAC board
