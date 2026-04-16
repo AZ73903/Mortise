@@ -1,14 +1,14 @@
 # Mortise 🤖
 
-A handcrafted walnut and maple AI desk companion. Speaker eyes. Retro gauge panel. Brass hardware. Local inference on NVIDIA Jetson Orin Nano Super. Built by a woodworker who wanted to see what happens when you take embodied AI seriously.
+A handcrafted AI desk companion. Speaker eyes. Retro gauge panel. Brass hardware. Local inference on NVIDIA Jetson Orin Nano Super.
 
 ---
 
 ## What Is This
 
-Mortise is a retro humanoid robot that lives on your desk. He plays music, watches YouTube, streams podcasts, holds conversations, recognizes your face, notices when someone walks into the room, and expresses himself through light, sound, and movement — mostly without words.
+Mortise is a retro humanoid robot that lives on your desk. He plays music, YouTube, streams podcasts, holds conversations, recognizes your face, notices when someone walks into the room, and expresses himself through light, sound, and movement — mostly without words.
 
-He is named after a woodworking joint. His eyes are speakers. His ears are rotary encoders that control his personality and how much he talks. He has three brass porthole gauges where his heart would be — one shows what he's thinking, one shows what he's feeling, one shows what he's playing.
+He is named after a woodworking joint. His eyes are speakers. His ears are rotary encoders that control his personality and how much he talks. He has a brass porthole gauges where his heart would be — one shows what he's thinking, one shows what he's feeling.
 
 This repository contains everything needed to build and run Mortise — software stack, configuration, personality engine, emotional state system, and hardware documentation.
 
@@ -16,13 +16,13 @@ This repository contains everything needed to build and run Mortise — software
 
 ## Physical Architecture
 
-Mortise is a three-piece system:
+Mortise is a two-piece system:
 
 **Mortise** — the robot. Walnut and maple humanoid. Compute, audio electronics, display, controls, head movement.
 
-**Base platform/legs** House psu's fed by one iec inlet that splits in the torso. 
+**Base platform/legs** House psu's fed by one iec inlet that splits in the torso. Legs house the power functions and the feet are pencil drawers.
 
-**Sub orb** — lathe-turned walnut sphere housing the RS125P-8 subwoofer. External, sits beside or behind Mortise. Speaker wire connects to base.
+
 
 ---
 
@@ -36,7 +36,7 @@ Mortise is a three-piece system:
 - Fosi Audio MC351 dehoused bare PCB (dual TPA3255, built-in DAC, built-in VU meter)
 - Zobel networks on all three drivers
 
-**Display:** Waveshare 7" 1280x800 IPS capacitive touch LCD
+**Display:** Waveshare 7" 1080x600 IPS capacitive touch LCD
 
 **Camera:** ELP 8MP 4K autofocus USB camera with built-in mic (9x62mm stick board, walnut cap mount)
 
@@ -66,7 +66,7 @@ Mortise is a three-piece system:
 ## Front Panel Layout
 
 ```
-[ REBOOT ]  [ KEY SW ]  [ VU ]  [ CPX ]  [ INFERENCE ]  [ PWR ]
+[ REBOOT ]  [ KEY SW ]  [ CPX ]  [ INFERENCE ]  [LCD PWR]  [ PWR ]
                     ──────── 7" LCD ────────
 [ BT PAIR  ]                              [ VOLUME
 [ MUTE     ]                                SLIDER ]
@@ -78,10 +78,9 @@ Mortise is a three-piece system:
 Top row left to right:
 - **Covered toggle** — reboot/reset, cosmetic, leftmost
 - **Key switch** — WiFi/BT connectivity kill, brass, keys dangling
-- **VU porthole** — analog needle, moves with music, brass bezel
 - **CPX porthole** — NeoPixel emotional state display, center
-- **Inference porthole** — GC9A01 1.28" round LCD, thinking gauge
-- **Power toggle** — brass SPST latching, rightmost
+- **Inference porthole** — thinking gauge, analog vu meter
+- **Power toggle** — SPST latching, rightmost
 
 - **Left pushbuttons** — BT pair (blue), mute (amber), mic kill (red), spare (white)
 - **Right slider** — master volume, vertical sliding potentiometer
@@ -255,7 +254,7 @@ ssh mortise@<tailscale-ip>
 
 ## Future Builds
 
-### V2 — WALL-E (Gift, Christmas 2026)
+### V2 — WALL-E Inspired (Gift, Christmas 2026)
 WALL-E form factor. Two round LCD eyes. Single quality driver in torso. Simpler than Mortise, focused on character and expression. Same software stack, tuned for a child.
 
 ### V3 — Cloud Connected
